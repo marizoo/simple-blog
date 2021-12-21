@@ -1,7 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { mainColor } from '../globalStyle';
-import Button from '../UI/Button'
 
 const Container = styled.div``;
 
@@ -20,6 +20,11 @@ color: ${mainColor};
 const BlogDesc = styled.p`
 `
 
+const linkStyle = {
+    textDecoration: 'none',
+    color: 'inherit'
+}
+
 
 const BlogList = ({title, blogs, handleDelete }) => {
     return (
@@ -27,9 +32,10 @@ const BlogList = ({title, blogs, handleDelete }) => {
             <Title>{title}</Title>
             {blogs.map( blog => (
                 <BlogContainer key={blog.id}>
-                    <BlogTitle>{blog.title}</BlogTitle>
-                    <BlogDesc>Written by {blog.author}</BlogDesc>
-                    <Button onClick={() => handleDelete(blog.id)}>delete</Button>
+                    <Link style={linkStyle} to={`/blogs/${blog.id}`}>
+                        <BlogTitle>{blog.title}</BlogTitle>
+                        <BlogDesc>Written by {blog.author}</BlogDesc>
+                    </Link>
                 </BlogContainer>
             ) )}
         </Container>

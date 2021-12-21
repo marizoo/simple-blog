@@ -6,6 +6,7 @@ import Navbar from './UI/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import CreateBlog from './components/CreateBlog';
 import ErrorPage from './components/ErrorPage';
+import BlogDetails from './components/BlogDetails';
 
 const MainContainer = styled.div`
 width: 100vw;
@@ -29,8 +30,8 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />}/>
           <Route path='/create' element={<CreateBlog />}/>
+          <Route path='/blogs/:id' element={<BlogDetails />}/>
           <Route path='*' element={<ErrorPage />}/>
-
         </Routes>
       </Content>
     </MainContainer>

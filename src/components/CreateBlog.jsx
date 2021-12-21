@@ -1,9 +1,15 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
+import { columnIt } from '../globalStyle';
 import Button from '../UI/Button';
 
-const Container = styled.div``;
-const Form = styled.form``;
+const Container = styled.div`
+width: 80%;
+`;
+const Form = styled.form`
+${columnIt};
+`;
 const Label = styled.label``;
 const Input = styled.input``;
 const Textarea = styled.textarea``;
@@ -15,14 +21,24 @@ const CreateBlog = () => {
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [author, setAuthor] = useState("brandi")
+    const [isPending, setIsPending] = useState(false)
+    const navigate = useNavigate();
 
     const submitHandle = (ev) => {
         ev.preventDefault()
 
         const newBlog = {title, body, author};
 
-        console.log(newBlog);
+        setIsPending(true)
 
+        fetch('http://localhost:8000/blogs', {
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify(newBlog)
+        }) .then( () => {
+            setIsPending(false);
+            navigate('/');
+        })
 
         setTitle("")
         setBody("")
@@ -48,13 +64,13 @@ const CreateBlog = () => {
                 <Label>Blog Author:</Label>
                 <Select
                 value={author}
-                setAuthor={(ev) => setAuthor(ev.target.value)}
+                onChange={(ev) => setAuthor(ev.target.value)}
                 >
                     <Option value="brandi">Brandi</Option>
                     <Option value="sheryl">Sheryl</Option>
                 </Select>
-                <Button type="submit">Add Blog</Button>
-               
+                {!isPending && <Button type="submit">Add Blog</Button>}
+                {isPending && <Button disabled>Adding blog...</Button>}
             </Form>
         </Container>
     )
